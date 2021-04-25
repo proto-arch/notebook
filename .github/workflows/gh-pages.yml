@@ -17,8 +17,8 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: 'latest'
-          # extended: true
+          hugo-version: '0.81.0'
+          extended: true
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -27,11 +27,12 @@ jobs:
 
       - run: gem install asciidoctor
 
-      - name: Build
-        run: hugo --minify
+      - name: Run Hugo
+        run: |
+          alias asciidoctor="asciidoctor --attribute=experimental=true --attribute=icons=font"
+          hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
